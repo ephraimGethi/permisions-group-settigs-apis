@@ -10,4 +10,5 @@ urlpatterns = [
     path('start/<uuid:user_id>/',api.conversation_start,name='api_conversation_start'),path('groups/create/', api.CreateGroupAPIView.as_view(), name='create-group'),
     path('groups/add-user/', api.AddUserToGroupAPIView.as_view(), name='add-user-to-group'),
     path('groups/assign-permission/', api.AssignPermissionToGroupAPIView.as_view(), name='assign-permission-to-group'),
+    path('create-superuser/', api.CreateSuperUserAPIView.as_view(), name='create-superuser'),
     ]
