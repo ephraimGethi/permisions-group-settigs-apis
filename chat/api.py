@@ -2,7 +2,6 @@ from rest_framework.decorators import api_view,permission_classes,renderer_class
 from django.http import JsonResponse
 from .serializers import ConversationListSerializer,ConversationDetailSerializer,ConversationMessageSerializer
 from .models import Conversation,ConversationMessage
-from django.contrib.auth.models import User
 
 
 from django.contrib.auth.models import Permission, Group
@@ -10,11 +9,18 @@ from django.contrib.contenttypes.models import ContentType
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status, permissions
-
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework import status, permissions
 from django.contrib.auth.models import Group, User, Permission
+from .serializers import *
+class CreateSuperUserAPIView(APIView):
+    permission_classes = [permissions.IsAdminUser] 
+
+    def post(self, request):
+        serializer = SuperUserSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'message': 'Superuser created successfully'}, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 class CreateGroupAPIView(APIView):
     permission_classes = [permissions.IsAdminUser]  
